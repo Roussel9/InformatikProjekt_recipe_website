@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favoriten - Rezeptseite</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="favorite.css">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success shadow">
+    <div class="container">
+        <a class="navbar-brand" href="#"><i class="bi bi-egg-fried"></i> Rezeptseite</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="/homePage.html"><i class="bi bi-house-door"></i> Home</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#"><i class="bi bi-heart-fill"></i> Favoriten</a></li>
+                <li class="nav-item"><a class="nav-link" href="/profil.html"><i class="bi bi-person-circle"></i> Mein Profil</a></li>
+              <li class="nav-item"><a class="nav-link" href="/nutzer.html"><i class="bi bi-person-circle"></i> andere Nutzer ansehen</a></li>
+              <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-box-arrow-right"></i> Abmelden</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Favoriten-Bereich -->
+<div class="container mt-5">
+    <h2 class="text-success text-center mb-4"><i class="bi bi-heart-fill"></i> Meine Favoriten</h2>
+
+    <!-- Suchleiste für Favoriten -->
+    <div class="input-group mb-4 shadow-sm">
+        <input type="text" class="form-control" placeholder="Nach Lieblingsrezepten suchen...">
+        <button class="btn btn-warning" type="button"><i class="bi bi-search"></i></button>
+    </div>
+
+
+    <!-- Bereich für gespeicherte Favoriten -->
+    <div class="row" id="favoritenListe">
+
+
+
+     </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4 mt-5 shadow">
+    <div class="container">
+        <p>&copy; 2025 Rezeptseite. Alle Rechte vorbehalten.</p>
+        <p><a href="#" class="text-white">Impressum</a> | <a href="#" class="text-white">Datenschutz</a> | <a href="#" class="text-white">AGB</a></p>
+    </div>
+</footer>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    loadFavorites(); // Favoriten beim Laden der Seite abrufen
+
+    // Funktion zum Abrufen und Anzeigen der Favoriten
+    function loadFavorites() {
+      fetch("/favorites") // API-Endpoint, der die Favoriten aus der DB holt
+        .then(response => response.json())
+        .then(favorites => {
+          const favoritenListe = document.getElementById("favoritenListe");
+          favoritenListe.innerHTML = ""; // Liste zurücksetzen
+
+          if (favorites.length === 0) {
+            favoritenListe.innerHTML = "<p class='text-center text-muted'>Du hast noch keine Favoriten gespeichert.</p>";
+          } else {
+            favorites.forEach(recipe => {
+              const card = document.createElement("div");
+              card.className = "col-md-4";
+              card.innerHTML = `
+                            <div class="card shadow-sm mb-4">
+                                <img src="${recipe.image_url || 'placeholder.jpg'}" class="card-img-top" alt="Rezeptbild">
+                                <div class="card-body">
+                                    <h5 class="card-title">${recipe.title}</h5>
+                                    <p class="card-text">${recipe.description}</p>
+                                    <a href="/recipes/${recipe.id}" class="btn btn-success">📖 Rezept ansehen</a>
+                                    <button class="btn btn-danger remove-favorite" data-recipe-id="${recipe.id}">❌ Entfernen</button>
+                                </div>
+                            </div>
+                        `;
+              favoritenListe.appendChild(card);
+            });
+
+            // Event Listener für "Entfernen"-Buttons
+            document.querySelectorAll(".remove-favorite").forEach(button => {
+              button.addEventListener("click", function () {
+                let recipeId = this.getAttribute("data-recipe-id");
+                removeFavorite(recipeId);
+              });
+            });
+          }
+        })
+        .catch(error => console.error("Fehler beim Laden der Favoriten:", error));
+    }
+
+
+
+    // Funktion zum Speichern eines Rezepts als Favorit
+    function addFavorite(recipeId) {
+      fetch(`/favorites/${recipeId}`, { method: "POST" })
+        .then(response => response.json()) // JSON-Antwort vom Server
+        .then(data => {
+          if (data.message) {
+            if (confirm(data.message)) {  // Alert durch ein Confirm-Fenster ersetzen
+              window.location.href = "/favorite.html"; // Nach OK zur Favoriten-Seite weiterleiten
+            }
+          }
+        })
+        .catch(error => console.error("Fehler beim Hinzufügen des Favoriten:", error));
+    }
+
+    function removeFavorite(recipeId) {
+      fetch(`/favorites/${recipeId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" }
+      })
+        .then(response => {
+          if (response.ok) {
+            loadFavorites(); // Liste neu laden
+          } else {
+            alert('Fehler beim Entfernen');
+          }
+        });
+    }
+
+// Detailansicht mit Modal
+    function showRecipeDetails(recipeId) {
+      fetch(`/recipes/${recipeId}`)
+        .then(response => response.json())
+        .then(recipe => {
+          const modalContent = `
+        <div class="modal fade" id="recipeModal">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5>${recipe.title}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <img src="${recipe.image_url}" class="img-fluid mb-3">
+                <p>${recipe.description}</p>
+                <h6>Zutaten:</h6>
+                <ul>
+                  ${recipe.ingredients.map(i => `
+                    <li>${i.name} - ${i.amount} ${i.unit}</li>
+                  `).join('')}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+          document.body.insertAdjacentHTML('beforeend', modalContent);
+          new bootstrap.Modal(document.getElementById('recipeModal')).show();
+        });
+    }
+
+
+
+    // Event-Listener für "Hinzufügen zu Favoriten" Buttons (z.B. auf Rezept-Seiten)
+    document.querySelectorAll(".add-favorite").forEach(button => {
+      button.addEventListener("click", function () {
+        let recipeId = this.getAttribute("data-recipe-id");
+        addFavorite(recipeId);
+      });
+    });
+  });
+</script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<div class="card shadow-sm mb-4">
+  <img src="${recipe.image_url}" class="card-img-top">
+  <div class="card-body">
+    <h5>${recipe.title}</h5>
+    <button onclick="showRecipeDetails(${recipe.id})"
+            class="btn btn-success">
+      📖 Details
+    </button>
+    <button onclick="removeFavorite(${recipe.id})"
+            class="btn btn-danger">
+      ❌ Entfernen
+    </button>
+  </div>
+</div>
+</body>
+</html>

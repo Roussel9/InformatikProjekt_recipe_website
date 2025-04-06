@@ -1,0 +1,63 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+.container {
+  max-width: 600px;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  margin: auto;
+}
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+button {
+  background-color: #28a745;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+}
+button:hover {
+  background-color: #218838;
+}
+.ingredient {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+.delete-btn {
+  background-color: red;
+  padding: 5px;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+/* Responsive Anpassungen */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+    margin: 10px;
+  }
+  button {
+    width: 100%;
+    padding: 12px;
+  }
+  .ingredient input {
+    width: 48%;
+  }
+  .delete-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+}

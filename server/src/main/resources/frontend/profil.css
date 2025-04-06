@@ -1,0 +1,58 @@
+/* Hintergrund */
+body {
+    background-color: #f8f9fa;
+}
+
+/* Profilkarte */
+.profile-card {
+    border: 1px solid #dee2e6;
+    border-radius: 15px;
+}
+
+/* Profilbild */
+.profile-header img {
+    border: 5px solid #f5f8f5;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.profile-header img:hover {
+    opacity: 0.8;
+}
+
+/* Kamera-Icon */
+.profile-header i {
+    position: relative;
+    left: -25px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* Ernährungsweise Buttons */
+.btn-check:checked + .btn {
+    background-color: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+.btn-outline-success:hover, .btn-outline-warning:hover, .btn-outline-danger:hover {
+    color: white;
+}
+
+.btn-outline-warning:hover {
+    background-color: #ffc107;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+}
+
+/* Rezepte-Bereich */
+.bg-light {
+    border: 1px solid #dee2e6;
+}
+
+/* Footer */
+footer {
+    background: #343a40;
+}

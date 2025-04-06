@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mein Profil - Rezeptseite</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="profil.css">
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success shadow">
+  <div class="container">
+    <a class="navbar-brand" href="#"><i class="bi bi-egg-fried"></i> Rezeptseite</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link" href="/homePage.html"><i class="bi bi-house-door"></i> Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/favorite.html"><i class="bi bi-heart-fill"></i> Favoriten</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/profil.html"><i class="bi bi-person-circle"></i> Mein Profil</a></li>
+        <li class="nav-item"><a class="nav-link" href="/nutzer.html"><i class="bi bi-person-circle"></i> andere Nutzer ansehen</a></li>
+
+        <li class="nav-item">
+          <form action="/logout" method="post" style="display:inline;">
+            <button type="submit" class="nav-link" style="border: none; background: none; padding:0; cursor: pointer;">
+              <i class="bi bi-box-arrow-right"></i> Abmelden
+            </button>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Profilbereich -->
+<div class="container mt-5">
+
+  <div class="d-flex justify-content-center align-items-center mb-3">
+    <input type="text" id="username" class="form-control text-center fw-bold fs-4 border-0" placeholder="Dein Name" disabled>
+    <button id="edit-btn" class="btn btn-link text-success ms-2">
+      <i class="bi bi-pencil"></i>
+    </button>
+  </div>
+  <button id="save-btn" class="btn btn-success d-none">Speichern</button>
+
+  <p class="text-muted mt-2"><strong>E-Mail:</strong><span id="email"></span> </p>
+
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <h4 class="text-success">Meine Erfolge</h4>
+      <div id="achievement" class="alert alert-success">
+        <i class="bi bi-trophy"></i> <span id="achievement-text">Lade Erfolge...</span>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <h4 class="text-success">Anmeldeinformationen ändern</h4>
+      <button onclick="window.location.href='/update-credentials.html'" class="btn btn-success">
+        <i class="bi bi-key"></i> Anmeldeinformationen ändern
+      </button>
+    </div>
+  </div>
+
+
+
+
+  <!-- Profil löschen Button -->
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8 text-center">
+      <form action="http://localhost:8888/users/delete" method="post">
+        <button type="submit" class="btn btn-danger">Profil löschen</button>
+      </form>
+
+    </div>
+  </div>
+
+
+
+
+
+  <!-- Ernährungsweise -->
+  <div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+      <h4 class="text-success">Meine Ernährungsweise</h4>
+      <div class="btn-group d-flex">
+        <input type="radio" class="btn-check" name="ernaehrung" id="alles" checked>
+        <label class="btn btn-outline-success flex-fill rounded-pill" for="alles">
+          <i class="bi bi-check-circle-fill"></i> Ich esse alles
+        </label>
+
+        <input type="radio" class="btn-check" name="ernaehrung" id="vegetarisch">
+        <label class="btn btn-outline-warning flex-fill rounded-pill" for="vegetarisch">
+          <i class="bi bi-leaf"></i> Vegetarisch
+        </label>
+
+        <input type="radio" class="btn-check" name="ernaehrung" id="vegan">
+        <label class="btn btn-outline-danger flex-fill rounded-pill" for="vegan">
+          <i class="bi bi-flower1"></i> Vegan
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rezepte des Nutzers -->
+  <div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+      <div class="text-center mt-4">
+        <a href="/meine-rezepte" class="btn btn-success rounded-pill px-4">
+          <i class="bi bi-journal"></i> Meine Rezepte ansehen
+        </a>
+      </div>
+
+      <div class="input-group mb-3 shadow-sm">
+        <input type="text" class="form-control" placeholder="Nach Rezepten suchen...">
+        <button class="btn btn-warning" type="button"><i class="bi bi-search"></i></button>
+      </div>
+
+      <!-- Rezeptliste -->
+      <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded shadow">
+        <p class="mb-0 text-muted"><i class="bi bi-exclamation-circle"></i> Keine Rezepte</p>
+        <button class="btn btn-success btn-sm rounded-pill px-3" onclick="window.location.href='recipe.html'"> <i class="bi bi-plus-circle"></i> Rezept hinzufügen</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4 mt-5 shadow">
+  <div class="container">
+    <p>&copy; 2025 Rezeptseite. Alle Rechte vorbehalten.</p>
+    <p><a href="#" class="text-white">Impressum</a> | <a href="#" class="text-white">Datenschutz</a> | <a href="#" class="text-white">AGB</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  document.getElementById("delete-profile-btn").addEventListener("click", function() {
+    if (confirm("Möchtest du wirklich dein Profil löschen? Diese Aktion kann nicht rückgängig gemacht werden!")) {
+      fetch("/users", {
+        method: "DELETE",
+        credentials: "include" // WICHTIG: Cookie für Session mit senden
+      })
+        .then(response => {
+          if (response.ok) {
+            alert("✅ Dein Profil wurde gelöscht!");
+            window.location.href = "/homePage.html"; // Zurück zur Startseite
+          } else {
+            response.text().then(text => alert("❌ Fehler: " + text));
+          }
+        })
+        .catch(error => console.error("Fehler beim Löschen:", error));
+    }
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    fetch("/users/me", { credentials: "include" }) // Sendet Cookies mit der Anfrage
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("username").value = data.name;
+        document.getElementById("email").textContent = data.email;
+      })
+      .catch(error => console.error("Fehler beim Abrufen der Benutzerdaten:", error));
+
+    document.getElementById("edit-btn").addEventListener("click", function() {
+      document.getElementById("username").removeAttribute("disabled");
+      document.getElementById("edit-btn").classList.add("d-none");
+      document.getElementById("save-btn").classList.remove("d-none");
+    });
+
+    document.getElementById("save-btn").addEventListener("click", function() {
+      const updatedName = document.getElementById("username").value;
+
+      fetch("/users/me", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ name: updatedName })
+      })
+        .then(response => response.text())
+        .then(message => {
+          alert(message);
+          document.getElementById("username").setAttribute("disabled", "true");
+          document.getElementById("edit-btn").classList.remove("d-none");
+          document.getElementById("save-btn").classList.add("d-none");
+        })
+        .catch(error => console.error("Fehler beim Aktualisieren des Profils:", error));
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Erfolge des Benutzers abrufen
+    fetch("/users/me/achievements", { credentials: "include" })
+      .then(response => response.json())
+      .then(data => {
+        const achievementText = document.getElementById("achievement-text");
+        if (data.achievement) {
+          achievementText.textContent = data.achievement;
+        } else {
+          achievementText.textContent = "Keine Erfolge verfügbar.";
+        }
+      })
+      .catch(error => console.error("Fehler beim Abrufen der Erfolge:", error));
+
+    // Erfolge überprüfen (wenn ein neues Rezept hinzugefügt wurde)
+    fetch("/users/me/check-achievements", {
+      method: "POST",
+      credentials: "include"
+    })
+      .then(response => response.text())
+      .then(message => console.log(message))
+      .catch(error => console.error("Fehler beim Überprüfen der Erfolge:", error));
+  });
+</script>
+
+
+</body>
+</html>
+

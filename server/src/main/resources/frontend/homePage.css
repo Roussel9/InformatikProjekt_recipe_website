@@ -1,0 +1,112 @@
+/*darkmodus*/
+
+:root {
+  --background-color: #ffffff; /* Hellmodus Hintergrund */
+  --text-color: #000000;       /* Hellmodus Textfarbe */
+  --navbar-bg: #28a745;        /* Navbar Hintergrund (Grün) */
+  --navbar-text: #ffffff;      /* Navbar Textfarbe (Weiß) */
+  --card-bg: #f8f9fa;          /* Karten Hintergrund (Hellgrau) */
+  --card-text: #212529;        /* Karten Textfarbe (Dunkelgrau) */
+}
+
+[data-theme="dark"] {
+  --background-color: #121212; /* Dunkelmodus Hintergrund */
+  --text-color: #ffffff;       /* Dunkelmodus Textfarbe */
+  --navbar-bg: #1a1a1a;        /* Dunkelmodus Navbar Hintergrund */
+  --navbar-text: #ffffff;      /* Dunkelmodus Navbar Textfarbe */
+  --card-bg: #1e1e1e;          /* Dunkelmodus Karten Hintergrund */
+  --card-text: #ffffff;        /* Dunkelmodus Karten Textfarbe */
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.navbar {
+  background-color: var(--navbar-bg) !important;
+  color: var(--navbar-text) !important;
+}
+
+.card {
+  background-color: var(--card-bg);
+  color: var(--card-text);
+}
+
+
+
+
+/* Allgemeine Stile */
+body {
+  background-color: #f8f9fa;
+}
+
+
+
+.result-container {
+  background: greenyellow;
+  max-width: 900px;
+  margin: auto;
+  border-radius: 12px;
+}
+/* Navigation */
+
+.navbar {
+  padding: 10px;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  color: #e9e8ed !important; /* Gelb für mehr Sichtbarkeit */
+}
+
+.navbar-nav .nav-link {
+  font-size: 1.1em;
+  margin-right: 15px;
+  /*color: #ebecee !important; /* Heller als weiß, für bessere Sichtbarkeit */
+}
+
+/*.navbar-nav .nav-link:hover {
+    /*color: #f0f0f5 !important; /* Gelber Hover-Effekt */
+/*}
+
+
+/* Suchleiste */
+.input-group {
+  max-width: 500px;
+  margin: auto;
+}
+
+/* Überschriften */
+h2 {
+  color: #2d7c3f;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Text */
+p, ul {
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+ul {
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+/* Bilder */
+img {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer */
+footer {
+  background-color: #343a40;
+}
+
+

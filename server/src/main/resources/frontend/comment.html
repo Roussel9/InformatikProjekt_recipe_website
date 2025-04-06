@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kommentare</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="meine-rezepte.css">
+</head>
+<body>
+<div class="container mt-5">
+  <h2 class="text-success text-center">Kommentare</h2>
+  <div id="comments-container"></div>
+
+  <!-- Kommentar Eingabefeld -->
+  <div class="row">
+    <div class="col-12">
+      <textarea id="comment-input" class="form-control mt-2" placeholder="Schreiben Sie einen Kommentar"></textarea>
+    </div>
+  </div>
+
+  <!-- Posten Button -->
+  <div class="row">
+    <div class="col-12 text-center">
+      <button id="submit-comment" class="btn btn-primary mt-2 w-100">Posten</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  const recipeId = urlParams.get('recipeId');
+
+  function loadComments() {
+    fetch(`/comments/` + recipeId)
+      .then(response => response.text())
+      .then(data => document.getElementById('comments-container').innerHTML = data)
+      .catch(err => console.error('Fehler:', err));
+  }
+
+  document.getElementById('submit-comment').addEventListener('click', function() {
+    const content = document.getElementById('comment-input').value;
+    fetch('/comments/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recipeId, content })
+    })
+      .then(() => {
+        window.location.href = '/comment.html?recipeId=' + recipeId;
+      })
+      .catch(err => console.error('Fehler:', err));
+  });
+
+  loadComments();
+</script>
+
+<script>
+  function loadComments() {
+    fetch(`/comments/${recipeId}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`Serverfehler: ${response.status} - ${response.statusText}`);
+        }
+        return response.text();
+      })
+      .then(html => {
+        document.getElementById('comments-container').innerHTML = html;
+
+        // Überprüfen, ob alle Kommentar-Elemente korrekt generiert wurden
+        document.querySelectorAll(".comment-item").forEach(item => {
+          const commentId = item.getAttribute("data-id");
+          if (!document.getElementById(`comment-text-${commentId}`)) {
+            console.warn(`⚠️ Warnung: Kommentar-Element 'comment-text-${commentId}' fehlt im DOM.`);
+          }
+        });
+      })
+      .catch(err => console.error("❌ Fehler:", err));
+  }
+
+  function editComment(commentId) {
+    setTimeout(() => {
+      // const commentText = document.getElementById(`comment-text-${commentId}`);
+      const commentText = document.getElementById(`comment-text-${commentId}`); // Korrekte ID
+
+      if (!commentText) {
+        console.error(`❌ Fehler: Kommentar mit ID 'comment-text-${commentId}' nicht gefunden!`);
+        loadComments(); // Versuche die Kommentare neu zu laden
+        return;
+      }
+
+      const currentContent = commentText.innerText;
+      commentText.outerHTML = `
+      <textarea id="edit-comment-input-${commentId}" class="form-control mb-2">${currentContent}</textarea>
+      <button class="btn btn-success btn-sm" onclick="saveComment(${commentId})">💾 Speichern</button>
+    `;
+    }, 100);
+  }
+    function saveComment(commentId) {
+    const newContent = document.querySelector(`#edit-comment-input-${commentId}`).value;
+
+    fetch(`/comments/${commentId}`, {
+    method: 'PUT',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({content: newContent})
+  })
+    .then(response => {
+    if (!response.ok) {
+    throw new Error('Fehler beim Speichern des Kommentars!');
+  }
+    return response.text(); // HTML statt JSON erwarten
+  })
+    .then(html => {
+    document.getElementById('comments-container').innerHTML = html; // Direkt HTML setzen
+
+    // ✅ Erfolgsmeldung anzeigen und zur Kommentarseite weiterleiten
+    alert("✅ Kommentar erfolgreich aktualisiert!");
+    window.location.href = `/comment.html?recipeId=${recipeId}`;
+  })
+    .catch(error => {
+    console.error('❌ Fehler:', error);
+
+    // ❌ Fehlermeldung anzeigen
+    alert("❌ Fehler: Der Kommentar konnte nicht gespeichert werden!");
+  });
+  }
+
+
+</script>
+
+<script>
+  function loadComments() {
+    fetch(`/comments/${recipeId}`)
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('comments-container').innerHTML = html;
+
+        document.querySelectorAll(".comment-item").forEach(item => {
+          const commentId = item.getAttribute("data-id");
+          // Löschbutton-Logik hier
+        });
+      })
+  }
+
+  // NEUE Löschfunktion
+  function deleteComment(commentId) {
+    if (confirm("Möchten Sie diesen Kommentar wirklich löschen?")) {
+      fetch(`/comments/${commentId}`, {
+        method: 'DELETE'
+      })
+        .then(response => {
+          if (response.ok) {
+            loadComments(); // Kommentare neu laden
+            alert("✅ Kommentar erfolgreich gelöscht!");
+          } else {
+            alert("❌ Löschen fehlgeschlagen!");
+          }
+        })
+        .catch(err => console.error('Fehler:', err));
+    }
+  }
+</script>
+</body>
+</html>
+
+

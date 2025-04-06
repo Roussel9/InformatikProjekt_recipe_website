@@ -1,0 +1,24 @@
+body {
+    background-color: #f8f9fa;
+}
+
+/* Überschrift */
+h2 {
+    font-weight: bold;
+}
+
+/* Suchleiste Styling */
+.input-group {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Favoriten-Bereich */
+#favoritenListe {
+    min-height: 200px; /* Platzhalter für Favoriten */
+}
+
+/* Footer */
+footer {
+    background: #343a40;
+}

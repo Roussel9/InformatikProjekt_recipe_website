@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Startseite - Rezeptseite</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="homePage.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+</head>
+<body>
+<!-- Navigation -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-success shadow">
+  <div class="container">
+    <a class="navbar-brand" href="#"><i class="bi bi-egg-fried"></i> Rezeptseite</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="#"><i class="bi bi-house-door"></i> Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/favorite.html"><i class="bi bi-heart-fill"></i> Favoriten</a></li>
+        <li class="nav-item"><a class="nav-link" href="/profil.html"><i class="bi bi-person-circle"></i> Mein Profil</a></li>
+        <li class="nav-item"><a class="nav-link" href="/nutzer.html"><i class="bi bi-person-circle"></i> andere Nutzer ansehen</a></li>
+        <li class="nav-item">
+          <!-- Button für Dunkelmodus -->
+          <button id="toggle-dark-mode-btn" class="nav-link" style="border: none; background: none; padding:0; cursor: pointer;">
+            <i class="bi bi-moon"></i> Dunkelmodus
+          </button>
+        </li>
+        <li class="nav-item">
+          <form action="/logout" method="post" style="display:inline;">
+            <button type="submit" class="nav-link" style="border: none; background: none; padding:0; cursor: pointer;">
+              <i class="bi bi-box-arrow-right"></i> Abmelden
+            </button>
+          </form>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Suchleiste -->
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="input-group">
+
+
+        <form action="/search/recipes" method="get" class="input-group">
+          <input type="text" id="recipeName" name="name" class="form-control" placeholder="Nach Rezepten suchen..." required>
+          <button class="btn btn-warning" type="submit"><i class="bi bi-search"></i> Suchen</button>
+        </form>
+
+        <div id="result" >
+          <!--Hier werden die Ergebnisse angezeigt -->
+        </div >
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Hauptinhalt -->
+<div class="container mt-5">
+  <!-- Geschichte der Rezepte -->
+  <!-- Geschichte der Rezepte -->
+  <div class="row mb-5 align-items-center">
+    <div class="col-md-6">
+      <h2>Geschichte der Rezepte</h2>
+      <p>Die Geschichte der Rezepte reicht Tausende von Jahren zurück. Bereits in den frühen Hochkulturen wie Mesopotamien, Ägypten und China wurden schriftliche Aufzeichnungen über Zubereitungsmethoden von Speisen hinterlassen.</p>
+      <p>Das älteste bekannte Kochbuch stammt aus dem antiken Rom – "Apicius", ein Werk aus dem 4. Jahrhundert, enthält zahlreiche Rezepte und zeigt, dass das Kochen schon damals eine Kunst war.</p>
+      <p>Im Mittelalter wurden Rezepte vor allem mündlich überliefert. Mit der Erfindung des Buchdrucks im 15. Jahrhundert wurden Kochbücher für die breite Masse zugänglich. Im 19. und 20. Jahrhundert kamen gedruckte Rezepthefte und später Online-Rezepte hinzu, wodurch sich das Wissen über Kochen rasant verbreitete.</p>
+      <p>Heute sind Rezepte nicht nur eine Anleitung zum Kochen, sondern ein kulturelles Erbe, das uns einen Einblick in die Essgewohnheiten vergangener Zeiten gibt.</p>
+    </div>
+    <div class="col-md-6">
+      <img src="geschichte.jpeg" class="img-fluid rounded shadow" alt="Geschichte der Rezepte">
+    </div>
+  </div>
+
+
+  <!-- Kochtipps -->
+  <div class="row mb-5 align-items-center">
+    <div class="col-md-6 order-md-2">
+      <h2>Kochtipps & Organisation</h2>
+      <ul>
+        <li>Planen Sie Ihre Mahlzeiten für eine bessere Organisation.</li>
+        <li>Frische Zutaten verbessern den Geschmack.</li>
+        <li>Halten Sie Ihre Küche sauber und aufgeräumt.</li>
+        <li>Experimentieren Sie mit neuen Gewürzen.</li>
+      </ul>
+    </div>
+    <div class="col-md-6 order-md-1">
+      <img src="tipp.jpg" class="img-fluid rounded shadow" alt="Kochtipps">
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-4">
+  <div class="container">
+    <p>&copy; 2025 Rezeptseite. Alle Rechte vorbehalten.</p>
+    <p><a href="#" class="text-white">Impressum</a> | <a href="#" class="text-white">Datenschutz</a> | <a href="#" class="text-white">AGB</a></p>
+  </div>
+</footer>
+
+
+
+<script>
+  // Funktion zum Setzen des Dunkelmodus-Status
+  function setDarkMode(isDarkMode) {
+    const body = document.body;
+    if (isDarkMode) {
+      body.setAttribute("data-theme", "dark");
+    } else {
+      body.setAttribute("data-theme", "light");
+    }
+  }
+  // Beim Laden der Seite den Dunkelmodus-Status abrufen und setzen
+  fetch("/get-dark-mode-status", {
+    method: "GET",
+    credentials: "include" // WICHTIG: Cookies für Session mit senden
+  })
+    .then(response => response.json())
+    .then(data => {
+      const isDarkMode = data.darkMode;
+      setDarkMode(isDarkMode);
+    })
+    .catch(error => console.error("Fehler beim Abrufen des Dunkelmodus-Status:", error));
+
+  // Beim Klicken auf den Dunkelmodus-Button
+  document.getElementById("toggle-dark-mode-btn").addEventListener("click", function() {
+    fetch("/toggle-dark-mode", {
+      method: "POST",
+      credentials: "include" // WICHTIG: Cookies für Session mit senden
+    })
+      .then(response => {
+        if (response.ok) {
+// Seite neu laden, um den Dunkelmodus anzuwenden
+          window.location.reload();
+        } else {
+          alert("Fehler beim Umschalten des Dunkelmodus.");
+        }
+      })
+      .catch(error => console.error("Fehler:", error));
+  });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

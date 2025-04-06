@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rezept bearbeiten</title>
+  <link rel="stylesheet" href="edit-recipe.css">
+</head>
+<body>
+
+<div class="container">
+  <h2>Rezept bearbeiten</h2>
+
+  <form id="edit-recipe-form">
+    <input type="hidden" id="recipe_id" name="recipe_id">
+
+    <label for="title">Titel:</label>
+    <input type="text" id="title" name="title" required>
+
+    <label for="description">Beschreibung:</label>
+    <textarea id="description" name="description" required></textarea>
+
+    <label for="portions">Portionen:</label>
+    <input type="number" id="portions" name="portions" required>
+
+    <label for="image_url">Bild-URL:</label>
+    <input type="text" id="image_url" name="image_url">
+
+    <h3>Zutaten</h3>
+    <div id="ingredients-list"></div>
+    <button type="button" onclick="addIngredient()">+ Zutat hinzufügen</button>
+
+    <button type="submit">Änderungen speichern</button>
+  </form>
+
+  <a href="profil.html">Zurück zu meinem Profil</a>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const params = new URLSearchParams(window.location.search);
+    const recipeId = params.get("id");
+
+    if (recipeId) {
+      fetch(`/api/recipe/${recipeId}`)
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById("recipe_id").value = data.recipe_id;
+          document.getElementById("title").value = data.title;
+          document.getElementById("description").value = data.description;
+          document.getElementById("portions").value = data.portions;
+          document.getElementById("image_url").value = data.image_url;
+
+          const ingredientsList = document.getElementById("ingredients-list");
+          ingredientsList.innerHTML = "";
+
+          data.ingredients.forEach(ingredient => {
+            addIngredient(ingredient.id, ingredient.name, ingredient.amount, ingredient.unit);
+          });
+        });
+    }
+
+    document.getElementById("edit-recipe-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const formData = new FormData(this);
+
+      fetch("/update-recipe", {
+        method: "POST",
+        body: formData
+      }).then(response => response.json())
+        .then(result => {
+          alert("Rezept erfolgreich aktualisiert!");
+          window.location.href = "profil.html";
+        })
+        .catch(error => console.error("Fehler:", error));
+    });
+  });
+
+  function addIngredient(id = "", name = "", amount = "", unit = "") {
+    const ingredientsList = document.getElementById("ingredients-list");
+
+    const div = document.createElement("div");
+    div.classList.add("ingredient");
+
+    div.innerHTML = `
+                <input type="hidden" name="ingredient_id[]" value="${id}">
+                <input type="text" name="ingredient_name[]" placeholder="Name" value="${name}" required>
+                <input type="number" name="ingredient_amount[]" placeholder="Menge" value="${amount}" required>
+                <input type="text" name="ingredient_unit[]" placeholder="Einheit" value="${unit}" required>
+                <button type="button" class="delete-btn" onclick="this.parentElement.remove()">X</button>
+            `;
+
+    ingredientsList.appendChild(div);
+  }
+</script>
+
+</body>
+</html>

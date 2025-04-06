@@ -1,0 +1,170 @@
+### Registrierung im system
+
+### Positiv:
+
+POST http://localhost:8888/register
+Content-Type: application/x-www-form-urlencoded
+
+name=Noel&email=Noel@gmail.com&password=Noel!
+
+
+
+### Negativer Fall: existiert schon im System
+
+POST http://localhost:8888/register
+Content-Type: application/x-www-form-urlencoded
+
+name=Noel&email=Noel@gmail.com&password=Noel!
+
+
+### Einloggen
+
+### Positiv:
+
+POST http://localhost:8888/login
+Content-Type: application/x-www-form-urlencoded
+
+email=Noel@gmail.com&password=Noel!
+
+
+### Negativer Fall: falsches Passwort
+
+POST http://localhost:8888/login
+Content-Type: application/x-www-form-urlencoded
+
+name=Noel&email=Noel@gmail.com&password=Noella!
+
+
+### Negativer Fall: unbekannte Email
+
+POST http://localhost:8888/login
+Content-Type: application/x-www-form-urlencoded
+
+name=Noel&email=NoelLA@gmail.com&password=Noel!
+
+
+### Rezeptmanagement
+
+### Rezept erstellen
+
+### positiver Fall :
+
+POST http://localhost:8888/add-recipe
+Cookie: session-id= f9758fcb-e502-4a1a-a7a9-d4e966549f8d
+Content-Type: application/x-www-form-urlencoded
+
+title=Testrezept&description=Testbeschreibung&portions=4&image_url=test.jpg&ingredients[]=Mehl&ingredient_amount[]=500&ingredient_unit[]=g
+
+
+### negativer Fall : ohne Session
+
+POST http://localhost:8888/add-recipe
+Cookie: session-id=
+Content-Type: application/x-www-form-urlencoded
+
+title=Testrezept&description=Testbeschreibung&portions=4&image_url=test.jpg&ingredients[]=Mehl&ingredient_amount[]=500&ingredient_unit[]=g
+
+
+### negativer Fall : fehlende Titel
+
+POST http://localhost:8888/add-recipe
+Cookie: session-id= f9758fcb-e502-4a1a-a7a9-d4e966549f8d
+Content-Type: application/x-www-form-urlencoded
+
+description=Lecker&portions=4&image_url=test.jpg&ingredients[]=Mehl&ingredient_amount[]=500&ingredient_unit[]=g
+
+
+### Rezept abrufen ( Rezeptdetails )
+
+### positiver Fall
+
+GET http://localhost:8888/recipes/1
+
+### negativer  Fall : ungültige ID
+
+GET http://localhost:8888/recipes/25
+
+### Favoritenfunktionen
+
+### Favorit hinzufügen
+
+### positiver Fall
+
+POST http://localhost:8888/favorites/1
+Cookie: session-id=f9758fcb-e502-4a1a-a7a9-d4e966549f8d	-1
+
+### negativer Fall : doppeltes Hinzufügen
+
+### negativer Fall : Ungültige recipe_id
+
+POST http://localhost:8888/favorites/20
+Cookie: session-id=[VALID_SESSION]
+
+### Favorite entfernen
+
+### positiver Fall
+
+DELETE http://localhost:8888/favorites/1
+Cookie: session-id=[VALID_SESSION]
+
+###negativer Fall : Nicht existierender Favorit
+
+DELETE http://localhost:8888/favorites/20
+Cookie: session-id=[VALID_SESSION]
+
+
+### Kommentarsystem
+
+### Kommentar erstellen
+
+### positiver Fall :
+
+POST http://localhost:8888/comments/add
+Cookie: session-id=[VALID_SESSION]
+Content-Type: application/json
+
+{"recipeId": 1, "content": "Tolles Rezept!"}
+
+### negativer Fall : Ungültige recipeId (nicht existierend)
+
+POST http://localhost:8888/comments/add
+Cookie: session-id=[VALID_SESSION]
+Content-Type: application/json
+
+{"recipeId": 20, "content": "Tolles Rezept!"}
+
+### Kommentar bearbeiten
+
+### positiver Fall :
+
+PUT http://localhost:8888/comments/1
+Cookie: session-id=[VALID_SESSION]
+Content-Type: application/json
+
+{"content": "Geändertes Kommentar"}
+
+### Negativer Fall: Ungültige commentId
+
+PUT http://localhost:8888/comments/20
+Cookie: session-id=[VALID_SESSION]
+Content-Type: application/json
+
+### Profilverwaltung
+
+### Profil aktualisieren
+
+### positiver Fall
+
+PATCH http://localhost:8888/users/me
+Cookie: session-id=[VALID_SESSION]
+Content-Type: application/json
+
+{"name": "DanieNoelle"}
+
+### negativer Fall : ungültige Email(ohne @)
+
+PATCH http://localhost:8888/users/me
+Cookie: session-id=[VALID_SESSION]
+Content-Type: application/json
+
+{"email": "DanieNoellegmail.com"}

@@ -1,0 +1,45 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.register-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-control:focus {
+    box-shadow: none;
+    border-color: #2d7c3f; /* Grüne Farbe für den Fokus-Rand */
+}
+
+.btn-primary {
+    background-color: #2d7c3f; /* Grüne Hintergrundfarbe */
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #256b34; /* Dunkleres Grün bei Hover */
+}
+
+.input-group-text {
+    background-color: #2d7c3f; /* Grüne Hintergrundfarbe für das Icon */
+    color: white;
+    border: none;
+}
+
+.input-group-text i {
+    font-size: 1.2em;
+    color: white;
+}
+
+/* Link für "Registrieren" in Grün */
+.text-primary {
+    color: #2d7c3f !important;
+}
+.text-primary:hover {
+    color: #256b34 !important;
+}

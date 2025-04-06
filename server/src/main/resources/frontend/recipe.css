@@ -1,0 +1,134 @@
+/* Standard-Stil für den Papierkorb-Button */
+.remove-btn {
+    background-color: transparent;
+    border: none;
+    color: #dc3545;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0; /* Standardmäßig unsichtbar */
+    transition: opacity 0.3s ease;
+    position: relative; /* Positionierung für den Text */
+}
+
+.remove-btn .remove-text {
+    display: none; /* Der Text ist standardmäßig unsichtbar */
+    position: absolute;
+    top: -20px; /* Text oben anzeigen */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.9rem;
+    color: #dc3545;
+}
+
+/* Wenn der Benutzer mit der Maus über das Eingabefeld fährt, wird der Papierkorb sichtbar und der Text erscheint */
+.ingredient-item:hover .remove-btn {
+    opacity: 1;
+}
+
+.ingredient-item:hover .remove-btn .remove-text {
+    display: block; /* Der Text wird angezeigt */
+}
+
+/* Hintergrund */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+    color: #495057;
+}
+
+/* Überschrift */
+h2 {
+    font-weight: bold;
+    color: #28a745;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Formular Container */
+.card {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* Formular-Input-Felder */
+input[type="text"],
+input[type="number"],
+textarea,
+input[type="file"] {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    font-size: 1rem;
+    width: 100%;
+    margin-bottom: 15px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+input[type="file"]:focus {
+    border-color: #28a745;
+    outline: none;
+}
+
+/* Buttons */
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.add-btn {
+    margin-top: 15px;
+}
+
+/* Footer */
+footer {
+    background-color: #343a40;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-top: 50px;
+    border-top: 3px solid #28a745;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #28a745;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card {
+        padding: 20px;
+        margin: 15px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .remove-btn {
+        font-size: 1.2rem;
+    }
+}
