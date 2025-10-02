@@ -79,7 +79,7 @@ Frontend öffnen:
 
 ### Startseite 
 
-![homepagepage Screenshot](server/src/main/resources/frontend/homepagepage.png)
+![homepagepage Screenshot](server/src/main/resources/frontend/homepage.png)
 
 ### Profilseite 
 
