@@ -79,11 +79,11 @@ Frontend öffnen:
 
 ### Startseite 
 
-![Homepage Screenshot](frontend/assets/homepage.png)
+![homepagepage Screenshot](server/src/main/resources/frontend/homepagepage.png)
 
 ### Profilseite 
 
-![profilpage Screenshot](frontend/assets/profilpage.png)
+![profilpage Screenshot](server/src/main/resources/frontend/profilpage.png)
 
 ## Zukunft & Ideen
 
